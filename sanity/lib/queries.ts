@@ -67,3 +67,51 @@ export async function getSiteSettings(): Promise<SanitySettings | null> {
     }`
   );
 }
+
+// ---- Page: Specialization ----
+export interface SanitySpecialization {
+  intro?: string;
+  items?: string[];
+  footer?: string;
+}
+export async function getSpecialization(): Promise<SanitySpecialization | null> {
+  if (!client) return null;
+  return client.fetch(`*[_type == "pageSpecialization"][0] { intro, items, footer }`);
+}
+
+// ---- Page: Reasons ----
+export interface SanityReason { title: string; text: string; }
+export interface SanityReasons { reasons?: SanityReason[]; }
+export async function getReasons(): Promise<SanityReasons | null> {
+  if (!client) return null;
+  return client.fetch(`*[_type == "pageReasons"][0] { reasons[] { title, text } }`);
+}
+
+// ---- Page: Offers ----
+export interface SanityOffer { label: string; text: string; }
+export interface SanityOffers { offers?: SanityOffer[]; footer?: string; }
+export async function getOffers(): Promise<SanityOffers | null> {
+  if (!client) return null;
+  return client.fetch(`*[_type == "pageOffers"][0] { offers[] { label, text }, footer }`);
+}
+
+// ---- Page: School ----
+export interface SanityCourse { label: string; text: string; }
+export interface SanitySchool { courses?: SanityCourse[]; footer?: string; }
+export async function getSchool(): Promise<SanitySchool | null> {
+  if (!client) return null;
+  return client.fetch(`*[_type == "pageSchool"][0] { courses[] { label, text }, footer }`);
+}
+
+// ---- Page: Partners ----
+export interface SanityPartners {
+  intro?: string;
+  partnerUrl?: string;
+  partnerButtonLabel?: string;
+  paymentText?: string;
+  privacyText?: string;
+}
+export async function getPartners(): Promise<SanityPartners | null> {
+  if (!client) return null;
+  return client.fetch(`*[_type == "pagePartners"][0] { intro, partnerUrl, partnerButtonLabel, paymentText, privacyText }`);
+}

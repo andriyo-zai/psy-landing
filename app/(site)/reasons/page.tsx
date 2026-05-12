@@ -1,6 +1,9 @@
 import PageWrapper from "@/components/PageWrapper";
+import { getReasons } from "@/sanity/lib/queries";
 
-const reasons = [
+export const dynamic = "force-dynamic";
+
+const fallbackReasons = [
   { title: "Образование и квалификация", text: "Диплом психолога, сертификат юнгианского аналитика и статус Гранд-мастера Таро — более 15 лет непрерывного обучения." },
   { title: "Практический опыт", text: "Более 3000 часов личной практики с клиентами из разных стран и культур." },
   { title: "Интегративный подход", text: "Сочетаю классический психоанализ с юнгианскими методами, арт-терапией и символическими инструментами." },
@@ -18,7 +21,10 @@ const reasons = [
   { title: "Постоянное развитие", text: "Регулярно прохожу супервизию и личный анализ — это обязательное условие качественной практики." },
 ];
 
-export default function ReasonsPage() {
+export default async function ReasonsPage() {
+  const data = await getReasons();
+  const reasons = data?.reasons?.length ? data.reasons : fallbackReasons;
+
   return (
     <PageWrapper title="15 причин выбрать меня">
       <ol className="space-y-4">

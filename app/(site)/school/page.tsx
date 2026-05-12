@@ -1,6 +1,9 @@
 import PageWrapper from "@/components/PageWrapper";
+import { getSchool } from "@/sanity/lib/queries";
 
-const courses = [
+export const dynamic = "force-dynamic";
+
+const fallbackCourses = [
   { label: "Базовый", text: "Архетипы и личность — введение в юнгианскую психологию" },
   { label: "Таро I", text: "Таро как язык бессознательного — теория и практика архетипических образов" },
   { label: "Таро II", text: "Продвинутый курс: жизненные сценарии и Таро-аналитика" },
@@ -10,7 +13,11 @@ const courses = [
   { label: "Героини", text: "Богини в каждой женщине — курс по женским архетипам" },
 ];
 
-export default function SchoolPage() {
+export default async function SchoolPage() {
+  const data = await getSchool();
+  const courses = data?.courses?.length ? data.courses : fallbackCourses;
+  const footer = data?.footer || "Актуальные авторские образовательные программы и интенсивы. Выдача официальных сертификатов, заверенных печатью организации ООО «Школа Архетипов Триквотр».";
+
   return (
     <PageWrapper title='Школа архетипов "Триквотр"'>
       <div className="mb-5">
@@ -21,12 +28,7 @@ export default function SchoolPage() {
           </div>
         ))}
       </div>
-
-      <p className="text-sm text-gray-600 italic text-center">
-        Актуальные авторские образовательные программы и интенсивы.
-        Выдача официальных сертификатов, заверенных печатью организации
-        ООО «Школа Архетипов Триквотр».
-      </p>
+      <p className="text-sm text-gray-600 italic text-center">{footer}</p>
     </PageWrapper>
   );
 }

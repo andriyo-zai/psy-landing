@@ -1,15 +1,22 @@
 import PageWrapper from "@/components/PageWrapper";
+import { getOffers } from "@/sanity/lib/queries";
 
-const offers = [
+export const dynamic = "force-dynamic";
+
+const fallbackOffers = [
   { label: "МАК", text: "Авторская сессия с метафорическими ассоциативными картами — исследование запроса через образ" },
   { label: "Группа", text: "Групповая аналитическая встреча — работа с архетипами в пространстве группы" },
   { label: "Интенсив", text: "Трансформационная программа выходного дня — погружение в юнгианский анализ" },
   { label: "Таро+", text: "Таро-терапия в сочетании с психоаналитической работой — для тех, кто ищет символический язык" },
   { label: "Триквотр", text: "Авторский курс Школы архетипов — онлайн-обучение с сертификатом" },
-  { label: "Расклад", text: 'Авторский глубинный расклад «Карта жизненного сценария» — 3-часовая сессия' },
+  { label: "Расклад", text: "Авторский глубинный расклад «Карта жизненного сценария» — 3-часовая сессия" },
 ];
 
-export default function OffersPage() {
+export default async function OffersPage() {
+  const data = await getOffers();
+  const offers = data?.offers?.length ? data.offers : fallbackOffers;
+  const footer = data?.footer || "Актуальные авторские специальные предложения, краткосрочные трансформационные программы, тематические авторские МАК, Таро аналитические расклады.";
+
   return (
     <PageWrapper title="Специальное предложение">
       <div className="mb-5">
@@ -20,12 +27,7 @@ export default function OffersPage() {
           </div>
         ))}
       </div>
-
-      <p className="text-sm text-gray-600 italic text-center">
-        Актуальные авторские специальные предложения, краткосрочные
-        трансформационные программы, тематические авторские МАК,
-        Таро аналитические расклады.
-      </p>
+      <p className="text-sm text-gray-600 italic text-center">{footer}</p>
     </PageWrapper>
   );
 }
