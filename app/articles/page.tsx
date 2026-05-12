@@ -1,6 +1,6 @@
 import Link from "next/link";
 import PageWrapper from "@/components/PageWrapper";
-import { getArticles } from "@/lib/articles";
+import { getArticles } from "@/sanity/lib/queries";
 
 export const dynamic = "force-dynamic";
 
@@ -17,12 +17,12 @@ export default async function ArticlesPage() {
         <div className="space-y-3">
           {articles.map((article) => (
             <Link
-              key={article.id}
-              href={`/articles/${article.id}`}
+              key={article._id}
+              href={`/articles/${article._id}`}
               className="block bg-gradient-to-br from-cyan-50 to-white border border-cyan-100 rounded-2xl p-4 hover:border-cyan-300 hover:shadow-sm transition-all group"
             >
               <p className="text-xs text-cyan-400 mb-1">
-                {new Date(article.createdAt).toLocaleDateString("ru-RU", {
+                {new Date(article.publishedAt).toLocaleDateString("ru-RU", {
                   day: "numeric",
                   month: "long",
                   year: "numeric",

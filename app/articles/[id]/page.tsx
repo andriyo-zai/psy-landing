@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
-import { getArticles } from "@/lib/articles";
+import { getArticleById } from "@/sanity/lib/queries";
 
 export const dynamic = "force-dynamic";
 
@@ -11,14 +11,12 @@ interface Props {
 
 export default async function ArticlePage({ params }: Props) {
   const { id } = await params;
-  const articles = await getArticles();
-  const article = articles.find((a) => a.id === id);
+  const article = await getArticleById(id);
 
   if (!article) notFound();
 
   return (
     <div className="px-5 py-5">
-      {/* Back link */}
       <Link
         href="/articles"
         className="flex items-center gap-1 text-sm text-gray-400 hover:text-cyan-600 transition-colors mb-5"
@@ -27,10 +25,9 @@ export default async function ArticlePage({ params }: Props) {
         Все заметки
       </Link>
 
-      {/* Article */}
       <article>
         <p className="text-xs text-cyan-400 mb-2">
-          {new Date(article.createdAt).toLocaleDateString("ru-RU", {
+          {new Date(article.publishedAt).toLocaleDateString("ru-RU", {
             day: "numeric",
             month: "long",
             year: "numeric",
@@ -48,11 +45,8 @@ export default async function ArticlePage({ params }: Props) {
         </div>
       </article>
 
-      {/* CTA */}
       <div className="flex justify-center mt-10 mb-2">
-        <a href="/#booking" className="btn-book">
-          Записаться
-        </a>
+        <a href="/#booking" className="btn-book">Записаться</a>
       </div>
     </div>
   );
