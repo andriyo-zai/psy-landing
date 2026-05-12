@@ -28,7 +28,7 @@ export default function HomePage() {
       {/* Name and tagline */}
       <div className="text-center mb-6">
         <h1 className="font-cursive text-purple-700 text-2xl font-bold mb-1">
-          Виктория Павленко
+          Виктория Павлюченко
         </h1>
         <p className="font-cursive text-purple-500 text-base mb-1">(Mrs Tobby)</p>
         <p className="font-cursive text-cyan-600 text-lg mb-3">
